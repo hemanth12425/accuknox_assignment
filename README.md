@@ -14,7 +14,6 @@ Ensure you have the following installed:
 
 ### 1. Clone the Repository
 
-```bash
 git clone https://github.com/yourusername/wisecow-deployment.git
 cd wisecow-deployment
 
@@ -22,7 +21,6 @@ cd wisecow-deployment
 
 If needed, start a local cluster with Minikube:
 
-bash
 
 minikube start
 
@@ -30,7 +28,7 @@ minikube start
 
 Apply the Kubernetes configuration files:
 
-bash
+
 
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
@@ -39,7 +37,7 @@ kubectl apply -f service.yaml
 
 To expose the app via Ingress, apply the Ingress configuration:
 
-bash
+
 
 kubectl apply -f ingress.yaml
 
@@ -48,7 +46,7 @@ Ensure an Ingress controller is installed in your cluster.
 
 Check if the pods are running:
 
-bash
+
 
 kubectl get pods
 
@@ -57,7 +55,7 @@ You should see a pod with a name starting with wisecow-deployment in the Running
 
 For Minikube users:
 
-bash
+
 
 minikube service wisecow-service
 
@@ -72,7 +70,7 @@ Files in This Repository
 
 To enable HTTPS, create a TLS secret:
 
-bash
+
 
 kubectl create secret tls wisecow-tls-secret --cert=path/to/tls.crt --key=path/to/tls.key
 
