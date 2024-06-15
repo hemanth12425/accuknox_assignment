@@ -1,0 +1,39 @@
+3. Log File Analyzer:
+Create a script that analyzes web server logs (e.g., Apache, Nginx) for
+common patterns such as the number of 404 errors, the most requested
+pages, or IP addresses with the most requests. The script should output a
+summarized report
+
+
+
+
+
+#!/bin/bash
+
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 /path/to/logfile"
+    exit 1
+fi
+
+LOGFILE=$1
+
+echo "Analyzing log file: $LOGFILE"
+echo "----------------------------"
+
+
+echo "Number of 404 errors:"
+grep "404" "$LOGFILE" | wc -l
+echo "----------------------------"
+
+
+echo "Most requested pages:"
+awk '{print $7}' "$LOGFILE" | sort | uniq -c | sort -nr | head -10
+echo "----------------------------"
+
+
+echo "IP addresses with the most requests:"
+awk '{print $1}' "$LOGFILE" | sort | uniq -c | sort -nr | head -10
+echo "----------------------------"
+
+echo "Log analysis complete."
