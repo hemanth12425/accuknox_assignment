@@ -1,0 +1,59 @@
+1. System Health Monitoring Script:
+Develop a script that monitors the health of a Linux system. It should check
+CPU usage, memory usage, disk space, and running processes. If any of
+these metrics exceed predefined thresholds (e.g., CPU usage > 80%), the
+script should send an alert to the console or a log file.
+
+
+#!/bin/bash
+
+
+CPU_THRESHOLD=80
+MEM_THRESHOLD=80
+DISK_THRESHOLD=80
+PROCESS_THRESHOLD=100
+
+
+check_cpu() {
+    CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | awk '{print $2 + $4}' | cut -d'.' -f1)
+    if [ "$CPU_USAGE" -gt "$CPU_THRESHOLD" ]; then
+        echo "ALERT: CPU usage is above ${CPU_THRESHOLD}% - Current usage: ${CPU_USAGE}%"
+    fi
+}
+
+
+check_memory() {
+    MEM_USAGE=$(free | grep Mem | awk '{print $3/$2 * 100.0}' | cut -d'.' -f1)
+    if [ "$MEM_USAGE" -gt "$MEM_THRESHOLD" ]; then
+        echo "ALERT: Memory usage is above ${MEM_THRESHOLD}% - Current usage: ${MEM_USAGE}%"
+    fi
+}
+
+
+check_disk() {
+    DISK_USAGE=$(df / | grep / | awk '{print $5}' | sed 's/%//g')
+    if [ "$DISK_USAGE" -gt "$DISK_THRESHOLD" ]; then
+        echo "ALERT: Disk usage is above ${DISK_THRESHOLD}% - Current usage: ${DISK_USAGE}%"
+    fi
+}
+
+
+check_processes() {
+    PROCESS_COUNT=$(ps aux | wc -l)
+    if [ "$PROCESS_COUNT" -gt "$PROCESS_THRESHOLD" ]; then
+        echo "ALERT: Number of running processes is above ${PROCESS_THRESHOLD} - Current count: ${PROCESS_COUNT}"
+    fi
+}
+
+
+main() {
+    echo "System health check at $(date)"
+    check_cpu
+    check_memory
+    check_disk
+    check_processes
+    echo "----------------------------------------"
+}
+
+# Run the main function
+main
