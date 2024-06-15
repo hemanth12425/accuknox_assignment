@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wisecow-ingress
+spec:
+  tls:
+  - hosts:
+    - my-cluster.local
+    secretName: my-tls-secret
+  rules:
+  - host: my-cluster.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wisecow-service
+            port:
+              number: 443
+
